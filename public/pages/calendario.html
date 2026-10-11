@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Calendário | Gestão Pessoal</title>
+
+  <link rel="stylesheet" href="../css/calendario.css">
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"
+    defer>
+  </script>
+
+  <script src="../js/calendario.js" defer></script>
+</head>
+
+<body>
+  <div class="layout">
+
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-icon">✦</div>
+        <div>
+          <strong>GESTÃO PESSOAL</strong>
+          <small>LAÍS VARGAS</small>
+        </div>
+      </div>
+
+      <p class="menu-label">MENU PRINCIPAL</p>
+
+      <nav class="nav">
+        <a href="/dashboard">⌂ Dashboard</a>
+        <a href="/pages/financas.html">◈ Financeiro</a>
+        <a href="/pages/calendario.html" class="active">
+          ▦ Calendário
+        </a>
+        <a href="/pages/estudos.html">▤ Meus estudos</a>
+        <a href="/pages/tarefas.html">☑ Tarefas</a>
+        <a href="/pages/metas.html">☆ Minhas metas</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="signature">Laís Vargas</div>
+        <p>Organize • Evolua • Conquiste</p>
+        <button id="logoutBtn" type="button">
+          Sair da conta ↗
+        </button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button type="button" id="menuToggle"
+                class="menu-toggle"
+                aria-label="Abrir menu">☰</button>
+
+        <span>✦ MINHA AGENDA PESSOAL</span>
+
+        <div class="avatar">♡</div>
+      </header>
+
+      <div class="content">
+
+        <section class="hero">
+          <div>
+            <span class="eyebrow">
+              ✦ ORGANIZE SEU TEMPO
+            </span>
+            <h1>Meu Calendário ♡</h1>
+            <p>
+              Planeje seus dias e transforme
+              seus compromissos em conquistas.
+            </p>
+          </div>
+
+          <button type="button" class="hero-button"
+                  id="addEventBtn">
+            + Novo compromisso
+          </button>
+        </section>
+
+        <div id="message" class="message"
+             role="status" aria-live="polite"
+             hidden></div>
+
+        <section class="stats">
+          <article class="stat-card">
+            <span class="stat-icon">▦</span>
+            <p>Compromissos de hoje</p>
+            <h2 id="todayCount">0</h2>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-icon">✧</span>
+            <p>Próximos 7 dias</p>
+            <h2 id="weekCount">0</h2>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-icon">♡</span>
+            <p>Total de compromissos</p>
+            <h2 id="totalCount">0</h2>
+          </article>
+        </section>
+
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow pink">PLANEJAMENTO</span>
+            <h2>Minha agenda</h2>
+          </div>
+        </div>
+
+        <section class="calendar-grid">
+          <article class="panel calendar-panel">
+            <div id="calendar"></div>
+          </article>
+
+          <article class="panel upcoming-panel">
+            <span class="eyebrow pink">MINHA ROTINA</span>
+            <h2>Próximos compromissos</h2>
+            <p class="subtext">
+              Seus próximos eventos em ordem de data.
+            </p>
+
+            <div id="upcomingList" class="upcoming-list">
+              <p class="empty">Carregando...</p>
+            </div>
+
+            <div class="tip">
+              <span>✦ DICA DE ORGANIZAÇÃO</span>
+              <p>
+                Clique em um dia do calendário
+                para adicionar um compromisso.
+              </p>
+            </div>
+          </article>
+        </section>
+
+        <section class="motivation">
+          <span>✦ UMA LEMBRANÇA PARA VOCÊ</span>
+          <h2>
+            Seu futuro está sendo construído
+            pelas escolhas que você faz hoje.
+          </h2>
+          <p>Planeje • Organize • Conquiste</p>
+        </section>
+
+        <footer class="footer">
+          <span>CRIADO E DESENVOLVIDO POR</span>
+          <div class="footer-signature">Laís Vargas</div>
+          <p>© 2026 • Gestão Pessoal</p>
+        </footer>
+
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="eventModal" hidden>
+    <section class="modal"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="modalTitle">
+
+      <button type="button" class="modal-close"
+              id="closeModal"
+              aria-label="Fechar">×</button>
+
+      <span class="eyebrow pink">
+        MINHA AGENDA
+      </span>
+
+      <h2 id="modalTitle">
+        Novo compromisso ♡
+      </h2>
+
+      <p class="modal-description">
+        Organize os detalhes do seu evento.
+      </p>
+
+      <form id="eventForm">
+        <input type="hidden" id="eventId">
+
+        <label for="eventTitle">Título</label>
+        <input id="eventTitle" type="text"
+               maxlength="150"
+               placeholder="Ex.: Estudar programação"
+               required>
+
+        <label for="eventDescription">Descrição</label>
+        <textarea id="eventDescription"
+                  maxlength="5000"
+                  rows="3"
+                  placeholder="Detalhes do compromisso"></textarea>
+
+        <div class="form-grid">
+          <div>
+            <label for="eventStart">Início</label>
+            <input id="eventStart"
+                   type="datetime-local" required>
+          </div>
+
+          <div>
+            <label for="eventEnd">Término</label>
+            <input id="eventEnd"
+                   type="datetime-local" required>
+          </div>
+        </div>
+
+        <label for="eventColor">Cor do evento</label>
+        <input id="eventColor" type="color"
+               value="#EC4899">
+
+        <div class="modal-actions">
+          <button type="button"
+                  id="deleteEventBtn"
+                  class="delete-button" hidden>
+            Excluir
+          </button>
+
+          <button type="button"
+                  id="cancelModal"
+                  class="cancel-button">
+            Cancelar
+          </button>
+
+          <button type="submit"
+                  id="saveEventBtn"
+                  class="save-button">
+            Salvar
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+</body>
+</html>

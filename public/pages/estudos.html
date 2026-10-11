@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meus Estudos | Gestão Pessoal</title>
+  <link rel="stylesheet" href="../css/estudos.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js" defer></script>
+  <script src="../js/estudos.js" defer></script>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <span class="brand-icon">✦</span>
+      <div>
+        <strong>GESTÃO PESSOAL</strong>
+        <small>LAÍS VARGAS</small>
+      </div>
+    </div>
+
+    <p class="menu-label">MENU PRINCIPAL</p>
+    <nav class="nav">
+      <a href="/dashboard">⌂ Dashboard</a>
+      <a href="/pages/financas.html">◈ Financeiro</a>
+      <a href="/pages/calendario.html">▦ Calendário</a>
+      <a class="active" href="/pages/estudos.html">▤ Meus estudos</a>
+      <a href="/pages/tarefas.html">☑ Tarefas</a>
+      <a href="/pages/metas.html">☆ Minhas metas</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="signature">Laís Vargas</div>
+      <p>Organize • Evolua • Conquiste</p>
+      <button id="logoutBtn" type="button">Sair da conta ↗</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button id="menuToggle" class="menu-toggle"
+              type="button" aria-label="Abrir menu">☰</button>
+      <span>✦ MINHA JORNADA DE ESTUDOS</span>
+      <span class="avatar">♡</span>
+    </header>
+
+    <div class="content">
+      <section class="hero">
+        <div>
+          <span class="eyebrow">✦ EVOLUÇÃO CONSTANTE</span>
+          <h1>Meus Estudos ♡</h1>
+          <p>Pequenos passos hoje, grandes conquistas amanhã.</p>
+        </div>
+        <button id="addSubjectBtn" class="hero-button"
+                type="button">+ Nova matéria</button>
+      </section>
+
+      <div id="message" class="message" role="status"
+           aria-live="polite" hidden></div>
+
+      <section class="stats">
+        <article class="stat-card">
+          <span class="stat-icon">▤</span>
+          <p>Matérias cadastradas</p>
+          <h2 id="subjectCount">0</h2>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon">◷</span>
+          <p>Horas estudadas na semana</p>
+          <h2 id="weekHours">0h</h2>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon">☆</span>
+          <p>Meta semanal</p>
+          <h2 id="weeklyGoal">0h</h2>
+        </article>
+      </section>
+
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow pink">MINHA EVOLUÇÃO</span>
+          <h2>Minhas matérias</h2>
+        </div>
+        <button id="addSubjectSecondary" class="pink-button"
+                type="button">+ Adicionar matéria</button>
+      </div>
+
+      <section id="subjectsGrid" class="subjects-grid">
+        <p class="empty">Carregando matérias...</p>
+      </section>
+
+      <div class="two-columns">
+        <section class="panel">
+          <span class="eyebrow pink">FOCO E DISCIPLINA</span>
+          <h2>Cronômetro de estudos</h2>
+          <p class="subtext">
+            Selecione uma matéria e registre seu tempo de dedicação.
+          </p>
+
+          <label for="timerSubject">Matéria</label>
+          <select id="timerSubject">
+            <option value="">Selecione uma matéria</option>
+          </select>
+
+          <div class="timer" id="timerDisplay">00:00:00</div>
+
+          <label for="sessionNotes">O que você estudou?</label>
+          <textarea id="sessionNotes" rows="3"
+                    placeholder="Ex.: Pratiquei JavaScript e APIs"></textarea>
+
+          <div class="timer-actions">
+            <button id="startTimer" class="pink-button"
+                    type="button">▶ Iniciar</button>
+            <button id="pauseTimer" class="soft-button"
+                    type="button" disabled>Ⅱ Pausar</button>
+            <button id="finishTimer" class="dark-button"
+                    type="button" disabled>✓ Finalizar</button>
+            <button id="resetTimer" class="soft-button"
+                    type="button">↺ Zerar</button>
+          </div>
+          <p class="subtext">
+            Sessões finalizadas com menos de um minuto
+            não serão registradas.
+          </p>
+        </section>
+
+        <section class="panel">
+          <span class="eyebrow pink">DESEMPENHO</span>
+          <h2>Últimos sete dias</h2>
+          <p class="subtext">Tempo de estudo registrado por dia.</p>
+          <div class="chart-wrapper">
+            <canvas id="studyChart"></canvas>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel history">
+        <div class="section-heading inside">
+          <div>
+            <span class="eyebrow pink">ACOMPANHAMENTO</span>
+            <h2>Histórico de estudos</h2>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Matéria</th>
+                <th>Data</th>
+                <th>Duração</th>
+                <th>Observações</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="sessionsBody">
+              <tr><td colspan="5" class="empty">Carregando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="motivation">
+        <span>✦ UMA LEMBRANÇA PARA VOCÊ</span>
+        <h2>Meu futuro está sendo construído pelas escolhas que faço hoje.</h2>
+        <p>Estude • Evolua • Conquiste</p>
+      </section>
+
+      <footer class="footer">
+        <span>CRIADO E DESENVOLVIDO POR</span>
+        <div class="footer-signature">Laís Vargas</div>
+        <p>© 2026 • Gestão Pessoal</p>
+      </footer>
+    </div>
+  </main>
+</div>
+
+<div id="subjectModal" class="modal-backdrop" hidden>
+  <section class="modal" role="dialog" aria-modal="true"
+           aria-labelledby="modalTitle">
+    <button id="closeModal" class="modal-close"
+            type="button" aria-label="Fechar">×</button>
+    <span class="eyebrow pink">PLANEJAMENTO ACADÊMICO</span>
+    <h2 id="modalTitle">Nova matéria ♡</h2>
+    <form id="subjectForm">
+      <input type="hidden" id="subjectId">
+      <label for="subjectName">Nome da matéria</label>
+      <input id="subjectName" type="text" maxlength="100"
+             placeholder="Ex.: Inglês" required>
+
+      <label for="subjectGoal">Meta semanal (horas)</label>
+      <input id="subjectGoal" type="number" min="0"
+             max="168" step="0.5" value="3" required>
+
+      <div class="modal-actions">
+        <button id="cancelModal" class="soft-button"
+                type="button">Cancelar</button>
+        <button id="saveSubject" class="pink-button"
+                type="submit">Salvar matéria</button>
+      </div>
+    </form>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financeiro | Gestão Pessoal</title>
+
+  <link rel="stylesheet" href="../css/financeiro.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js" defer></script>
+  <script src="../js/financeiro.js" defer></script>
+</head>
+<body>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-icon">✦</div>
+      <div>
+        <strong>GESTÃO PESSOAL</strong>
+        <small>LAÍS VARGAS</small>
+      </div>
+    </div>
+
+    <p class="menu-label">MENU PRINCIPAL</p>
+
+    <nav class="nav">
+      <a href="/dashboard">⌂ Dashboard</a>
+      <a href="/pages/financas.html" class="active">◈ Financeiro</a>
+      <a href="/pages/calendario.html">▦ Calendário</a>
+      <a href="/pages/estudos.html">▤ Meus estudos</a>
+      <a href="/pages/tarefas.html">☑ Tarefas</a>
+      <a href="/pages/metas.html">☆ Minhas metas</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="signature">Laís Vargas</div>
+      <p>Organize • Evolua • Conquiste</p>
+      <button type="button" id="logoutBtn">Sair da conta ↗</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button type="button" class="menu-toggle"
+              id="menuToggle" aria-label="Abrir menu">☰</button>
+      <span>✦ CONTROLE FINANCEIRO</span>
+      <div class="top-avatar">♡</div>
+    </header>
+
+    <div class="content">
+      <section class="hero">
+        <div>
+          <span class="eyebrow">✦ MINHA VIDA FINANCEIRA</span>
+          <h1>Meu Financeiro <span>♡</span></h1>
+          <p>Cuide do seu dinheiro e construa o futuro que deseja.</p>
+        </div>
+        <button type="button" class="hero-button" id="addBtn">
+          + Nova movimentação
+        </button>
+      </section>
+
+      <div id="message" class="message" role="status"
+           aria-live="polite" hidden></div>
+
+      <section class="summary-grid">
+        <article class="summary-card">
+          <div class="card-icon">◈</div>
+          <p>Saldo total</p>
+          <h2 id="saldo">R$ 0,00</h2>
+          <small>Receitas menos despesas</small>
+        </article>
+
+        <article class="summary-card">
+          <div class="card-icon green">↗</div>
+          <p>Receitas totais</p>
+          <h2 id="receitas">R$ 0,00</h2>
+          <small>Todos os ganhos cadastrados</small>
+        </article>
+
+        <article class="summary-card">
+          <div class="card-icon red">↘</div>
+          <p>Despesas totais</p>
+          <h2 id="despesas">R$ 0,00</h2>
+          <small>Todos os gastos cadastrados</small>
+        </article>
+      </section>
+
+      <section class="section-title">
+        <div>
+          <span class="eyebrow pink">VISÃO FINANCEIRA</span>
+          <h2>Suas movimentações</h2>
+        </div>
+      </section>
+
+      <div class="details-grid">
+        <section class="panel chart-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="eyebrow pink">ANÁLISE</span>
+              <h3>Receitas e despesas</h3>
+            </div>
+            <span class="sparkle">✦</span>
+          </div>
+          <p class="subtext">Comparação dos últimos seis meses</p>
+          <div class="chart-wrapper">
+            <canvas id="financeChart"></canvas>
+          </div>
+        </section>
+
+        <section class="panel insight-panel">
+          <span class="eyebrow pink">MEU PLANEJAMENTO</span>
+          <h3>Seu dinheiro, seus sonhos.</h3>
+          <p>
+            Registre cada entrada e saída para acompanhar
+            sua evolução financeira com mais clareza.
+          </p>
+
+          <div class="insight-decoration">✧</div>
+
+          <button type="button" id="quickAddBtn"
+                  class="outline-button">
+            + Adicionar lançamento
+          </button>
+        </section>
+      </div>
+
+      <section class="panel history-panel">
+        <div class="panel-heading">
+          <div>
+            <span class="eyebrow pink">HISTÓRICO</span>
+            <h3>Minhas transações</h3>
+          </div>
+          <button type="button" id="historyAddBtn"
+                  class="small-button">
+            + Adicionar
+          </button>
+        </div>
+
+        <div class="filters">
+          <label>
+            <span>Pesquisar</span>
+            <input type="search" id="searchInput"
+                   placeholder="Descrição...">
+          </label>
+
+          <label>
+            <span>Tipo</span>
+            <select id="typeFilter">
+              <option value="">Todos</option>
+              <option value="receita">Receitas</option>
+              <option value="despesa">Despesas</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Mês</span>
+            <input type="month" id="monthFilter">
+          </label>
+
+          <button type="button" id="clearFilters"
+                  class="clear-button">
+            Limpar filtros
+          </button>
+        </div>
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Descrição</th>
+                <th>Tipo</th>
+                <th>Data</th>
+                <th>Valor</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="transactionsBody">
+              <tr>
+                <td colspan="5" class="empty">
+                  Carregando movimentações...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>CRIADO E DESENVOLVIDO POR</span>
+        <div class="footer-signature">Laís Vargas</div>
+        <p>© 2026 • Gestão Pessoal</p>
+      </footer>
+    </div>
+  </main>
+</div>
+
+<!-- MODAL PARA CADASTRAR E EDITAR -->
+<div class="modal-backdrop" id="transactionModal" hidden>
+  <section class="modal" role="dialog" aria-modal="true"
+           aria-labelledby="modalTitle">
+    <button type="button" class="modal-close"
+            id="closeModal" aria-label="Fechar">×</button>
+
+    <span class="eyebrow pink">ORGANIZE SUAS FINANÇAS</span>
+    <h2 id="modalTitle">Nova movimentação ♡</h2>
+    <p class="modal-description">
+      Preencha as informações do seu lançamento.
+    </p>
+
+    <form id="transactionForm">
+      <input type="hidden" id="transactionId">
+
+      <label for="transactionType">Tipo</label>
+      <select id="transactionType" required>
+        <option value="despesa">Despesa</option>
+        <option value="receita">Receita</option>
+      </select>
+
+      <label for="description">Descrição</label>
+      <input type="text" id="description"
+             maxlength="200" required
+             placeholder="Ex.: Material de estudo">
+
+      <label for="amount">Valor (R$)</label>
+      <input type="number" id="amount" min="0.01"
+             step="0.01" required placeholder="0,00">
+
+      <label for="transactionDate">Data</label>
+      <input type="date" id="transactionDate" required>
+
+      <div class="modal-actions">
+        <button type="button" id="cancelModal"
+                class="cancel-button">Cancelar</button>
+        <button type="submit" class="save-button"
+                id="saveBtn">Salvar movimentação</button>
+      </div>
+    </form>
+  </section>
+</div>
+
+</body>
+</html>

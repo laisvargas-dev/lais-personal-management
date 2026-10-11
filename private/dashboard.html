@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Gestão Pessoal</title>
+
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js" defer></script>
+  <script src="/js/dashboard.js" defer></script>
+</head>
+
+<body>
+  <div class="layout">
+
+    <aside class="sidebar" id="sidebar">
+      <div class="logo">
+        <div class="logo-icon">✦</div>
+        <div>
+          <strong>GESTÃO PESSOAL</strong>
+          <small>LAÍS VARGAS</small>
+        </div>
+      </div>
+
+      <div class="menu-label">MENU PRINCIPAL</div>
+
+      <nav class="menu">
+        <a href="/dashboard" class="active">⌂ Dashboard</a>
+        <a href="/pages/financas.html">◈ Financeiro</a>
+        <a href="/pages/calendario.html">▦ Calendário</a>
+        <a href="/pages/estudos.html">▤ Meus estudos</a>
+        <a href="/pages/tarefas.html">☑ Tarefas</a>
+        <a href="/pages/metas.html">☆ Minhas metas</a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-signature">Laís Vargas</div>
+        <p>Organize • Evolua • Conquiste</p>
+        <button id="logoutBtn">Sair da conta ↗</button>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <header class="topbar">
+        <button class="mobile-menu" id="menuBtn"
+                aria-label="Abrir menu">☰</button>
+
+        <div class="breadcrumb">✦ GESTÃO PESSOAL</div>
+
+        <div class="profile">
+          <span id="profileName">Minha conta</span>
+          <div class="avatar" id="avatar">L</div>
+        </div>
+      </header>
+
+      <div class="content">
+
+        <section class="hero">
+          <div>
+            <span class="hero-label">✦ MEU ESPAÇO PESSOAL</span>
+            <h1>Olá, <span id="userName">...</span>! ♡</h1>
+            <p>Organize seu presente, construa seu futuro.</p>
+            <span id="todayDate" class="hero-date"></span>
+          </div>
+          <div class="hero-decoration">✧</div>
+        </section>
+
+        <div id="errorMessage" class="error" hidden></div>
+
+        <div class="section-heading">
+          <div>
+            <span class="overline">VISÃO GERAL</span>
+            <h2>Seu resumo financeiro</h2>
+          </div>
+          <span class="heading-symbol">✦</span>
+        </div>
+
+        <section class="stats">
+          <article class="stat-card">
+            <div class="stat-icon">◈</div>
+            <p>Saldo disponível</p>
+            <h3 id="saldo">—</h3>
+            <small>Receitas menos despesas registradas</small>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-icon green">↗</div>
+            <p>Receitas do mês</p>
+            <h3 id="receitas">—</h3>
+            <small>Entradas neste mês</small>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-icon red">↘</div>
+            <p>Despesas do mês</p>
+            <h3 id="despesas">—</h3>
+            <small>Saídas neste mês</small>
+          </article>
+        </section>
+
+        <div class="section-heading">
+          <div>
+            <span class="overline">MINHA ORGANIZAÇÃO</span>
+            <h2>Seu progresso</h2>
+          </div>
+        </div>
+
+        <section class="stats four">
+          <article class="stat-card mini">
+            <div class="stat-icon">☑</div>
+            <p>Tarefas pendentes</p>
+            <h3 id="tarefas">—</h3>
+          </article>
+
+          <article class="stat-card mini">
+            <div class="stat-icon">▦</div>
+            <p>Compromissos hoje</p>
+            <h3 id="eventos">—</h3>
+          </article>
+
+          <article class="stat-card mini">
+            <div class="stat-icon">▤</div>
+            <p>Horas estudadas</p>
+            <h3 id="estudos">—</h3>
+            <small>Nesta semana</small>
+          </article>
+
+          <article class="stat-card mini">
+            <div class="stat-icon">☆</div>
+            <p>Metas em andamento</p>
+            <h3 id="metas">—</h3>
+          </article>
+        </section>
+
+        <section class="details-grid">
+
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <span class="overline">CONTROLE FINANCEIRO</span>
+                <h2>Receitas e despesas</h2>
+              </div>
+              <span class="panel-symbol">✦</span>
+            </div>
+            <p class="panel-subtitle">Últimos seis meses</p>
+            <div class="chart-container">
+              <canvas id="financeChart"></canvas>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <span class="overline">ORGANIZAÇÃO</span>
+                <h2>Próximas tarefas</h2>
+              </div>
+            </div>
+
+            <div id="taskList" class="task-list">
+              <p class="empty">Carregando tarefas...</p>
+            </div>
+          </article>
+
+        </section>
+
+        <section class="motivation">
+          <span>✦ UMA LEMBRANÇA PARA VOCÊ</span>
+          <h2>Seu futuro está sendo construído
+            pelas escolhas que você faz hoje.</h2>
+          <p>Um pequeno passo todos os dias. ♡</p>
+        </section>
+
+        <footer class="footer">
+          <span>CRIADO E DESENVOLVIDO POR</span>
+          <div class="footer-signature">Laís Vargas</div>
+          <p>© 2026 • Desenvolvimento Web</p>
+        </footer>
+
+      </div>
+    </main>
+  </div>
+</body>
+</html>

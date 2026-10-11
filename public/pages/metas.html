@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minhas Metas | Gestão Pessoal</title>
+  <link rel="stylesheet" href="../css/metas.css">
+  <script src="../js/metas.js" defer></script>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-icon">✦</div>
+        <div>
+          <strong>GESTÃO PESSOAL</strong>
+          <small>LAÍS VARGAS</small>
+        </div>
+      </div>
+
+      <p class="menu-label">MENU PRINCIPAL</p>
+      <nav class="nav">
+        <a href="/dashboard">⌂ Dashboard</a>
+        <a href="/pages/financas.html">◈ Financeiro</a>
+        <a href="/pages/calendario.html">▦ Calendário</a>
+        <a href="/pages/estudos.html">▤ Meus estudos</a>
+        <a href="/pages/tarefas.html">☑ Tarefas</a>
+        <a class="active" href="/pages/metas.html">☆ Minhas metas</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="signature">Laís Vargas</div>
+        <p>Organize • Evolua • Conquiste</p>
+        <button id="logoutBtn" type="button">Sair da conta ↗</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menuToggle" class="menu-toggle"
+                type="button" aria-label="Abrir menu">☰</button>
+        <span>✦ MEU FUTURO COMEÇA AQUI</span>
+        <span class="avatar">♡</span>
+      </header>
+
+      <div class="content">
+        <section class="hero">
+          <div>
+            <span class="eyebrow">✦ SONHOS E CONQUISTAS</span>
+            <h1>Minhas Metas ♡</h1>
+            <p>Transforme seus sonhos em planos e seus planos em conquistas.</p>
+          </div>
+          <button id="addGoalBtn" class="hero-button" type="button">
+            + Nova meta
+          </button>
+        </section>
+
+        <div id="message" class="message" role="status"
+             aria-live="polite" hidden></div>
+
+        <section class="stats">
+          <article class="stat-card">
+            <span class="stat-icon">☆</span>
+            <p>Total de metas</p>
+            <h2 id="totalGoals">0</h2>
+          </article>
+          <article class="stat-card">
+            <span class="stat-icon">◷</span>
+            <p>Metas em andamento</p>
+            <h2 id="activeGoals">0</h2>
+          </article>
+          <article class="stat-card">
+            <span class="stat-icon">✓</span>
+            <p>Metas conquistadas</p>
+            <h2 id="completedGoals">0</h2>
+          </article>
+          <article class="stat-card">
+            <span class="stat-icon">✦</span>
+            <p>Progresso médio</p>
+            <h2 id="averageProgress">0%</h2>
+          </article>
+        </section>
+
+        <section class="panel overview">
+          <div class="overview-header">
+            <div>
+              <span class="eyebrow pink">MINHA EVOLUÇÃO</span>
+              <h2>Jornada de conquistas</h2>
+              <p>Um passo de cada vez em direção aos seus objetivos.</p>
+            </div>
+            <strong id="overviewPercent">0%</strong>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="overviewFill"></div>
+          </div>
+        </section>
+
+        <section class="panel goals-section">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow pink">MEU PLANEJAMENTO</span>
+              <h2>Objetivos e sonhos</h2>
+            </div>
+            <button id="addGoalSecondary" class="pink-button"
+                    type="button">+ Adicionar meta</button>
+          </div>
+
+          <div class="filters">
+            <label>
+              Pesquisar
+              <input id="searchGoals" type="search"
+                     placeholder="Buscar uma meta...">
+            </label>
+            <label>
+              Categoria
+              <select id="categoryFilter">
+                <option value="">Todas</option>
+                <option value="pessoal">Pessoal</option>
+                <option value="financeira">Financeira</option>
+                <option value="estudos">Estudos</option>
+                <option value="profissional">Profissional</option>
+                <option value="saude">Saúde</option>
+                <option value="outras">Outras</option>
+              </select>
+            </label>
+            <label>
+              Situação
+              <select id="statusFilter">
+                <option value="">Todas</option>
+                <option value="ativa">Em andamento</option>
+                <option value="concluida">Concluídas</option>
+                <option value="atrasada">Atrasadas</option>
+              </select>
+            </label>
+          </div>
+
+          <div id="goalsGrid" class="goals-grid">
+            <p class="empty">Carregando metas...</p>
+          </div>
+        </section>
+
+        <section class="motivation">
+          <span>✦ NUNCA ESQUEÇA</span>
+          <h2>Meu futuro está sendo construído pelas escolhas que faço hoje.</h2>
+          <p>Sonhe • Planeje • Conquiste</p>
+        </section>
+
+        <footer class="footer">
+          <span>CRIADO E DESENVOLVIDO POR</span>
+          <div class="footer-signature">Laís Vargas</div>
+          <p>© 2026 • Gestão Pessoal</p>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <div id="goalModal" class="modal-backdrop" hidden>
+    <section class="modal" role="dialog" aria-modal="true"
+             aria-labelledby="modalTitle">
+      <button id="closeModal" class="modal-close"
+              type="button" aria-label="Fechar">×</button>
+
+      <span class="eyebrow pink">UM NOVO OBJETIVO</span>
+      <h2 id="modalTitle">Nova meta ♡</h2>
+
+      <form id="goalForm">
+        <input id="goalId" type="hidden">
+
+        <label for="goalTitle">Nome da meta</label>
+        <input id="goalTitle" type="text" maxlength="150"
+               placeholder="Ex.: Aprender inglês" required>
+
+        <label for="goalCategory">Categoria</label>
+        <select id="goalCategory">
+          <option value="pessoal">♡ Pessoal</option>
+          <option value="financeira">💰 Financeira</option>
+          <option value="estudos">📚 Estudos</option>
+          <option value="profissional">💻 Profissional</option>
+          <option value="saude">🌿 Saúde</option>
+          <option value="outras">✦ Outras</option>
+        </select>
+
+        <label for="goalDescription">Descrição</label>
+        <textarea id="goalDescription" rows="3" maxlength="5000"
+                  placeholder="Descreva seu objetivo..."></textarea>
+
+        <label for="goalDeadline">Prazo para conquistar</label>
+        <input id="goalDeadline" type="date">
+
+        <div class="slider-heading">
+          <label for="goalProgress">Progresso atual</label>
+          <strong id="progressValue">0%</strong>
+        </div>
+        <input id="goalProgress" class="progress-slider"
+               type="range" min="0" max="100" step="1" value="0">
+
+        <div class="modal-actions">
+          <button id="cancelModal" class="soft-button"
+                  type="button">Cancelar</button>
+          <button id="saveGoalBtn" class="pink-button"
+                  type="submit">Salvar meta</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</body>
+</html>

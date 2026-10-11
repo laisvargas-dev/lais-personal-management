@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minhas Tarefas | Gestão Pessoal</title>
+  <link rel="stylesheet" href="../css/tarefas.css">
+  <script src="../js/tarefas.js" defer></script>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-icon">✦</div>
+        <div>
+          <strong>GESTÃO PESSOAL</strong>
+          <small>LAÍS VARGAS</small>
+        </div>
+      </div>
+
+      <p class="menu-label">MENU PRINCIPAL</p>
+
+      <nav class="nav">
+        <a href="/dashboard">⌂ Dashboard</a>
+        <a href="/pages/financas.html">◈ Financeiro</a>
+        <a href="/pages/calendario.html">▦ Calendário</a>
+        <a href="/pages/estudos.html">▤ Meus estudos</a>
+        <a class="active" href="/pages/tarefas.html">☑ Tarefas</a>
+        <a href="/pages/metas.html">☆ Minhas metas</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="signature">Laís Vargas</div>
+        <p>Organize • Evolua • Conquiste</p>
+        <button type="button" id="logoutBtn">Sair da conta ↗</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button type="button" id="menuToggle"
+                class="menu-toggle" aria-label="Abrir menu">☰</button>
+        <span>✦ MINHA ORGANIZAÇÃO PESSOAL</span>
+        <div class="avatar">♡</div>
+      </header>
+
+      <div class="content">
+        <section class="hero">
+          <div>
+            <span class="eyebrow">✦ PRODUTIVIDADE E FOCO</span>
+            <h1>Minhas Tarefas ♡</h1>
+            <p>Organize suas prioridades e comemore cada conquista.</p>
+          </div>
+          <button type="button" id="addTaskBtn" class="hero-button">
+            + Nova tarefa
+          </button>
+        </section>
+
+        <div id="message" class="message" role="status"
+             aria-live="polite" hidden></div>
+
+        <section class="stats">
+          <article class="stat-card">
+            <span class="stat-icon">▤</span>
+            <p>Total de tarefas</p>
+            <h2 id="totalTasks">0</h2>
+          </article>
+          <article class="stat-card">
+            <span class="stat-icon">◷</span>
+            <p>Pendentes</p>
+            <h2 id="pendingTasks">0</h2>
+          </article>
+          <article class="stat-card">
+            <span class="stat-icon">✓</span>
+            <p>Concluídas</p>
+            <h2 id="completedTasks">0</h2>
+          </article>
+          <article class="stat-card">
+            <span class="stat-icon">!</span>
+            <p>Atrasadas</p>
+            <h2 id="overdueTasks">0</h2>
+          </article>
+        </section>
+
+        <section class="panel progress-panel">
+          <div class="progress-heading">
+            <div>
+              <span class="eyebrow pink">MINHA EVOLUÇÃO</span>
+              <h2>Progresso das tarefas</h2>
+              <p>Veja o quanto você já conquistou.</p>
+            </div>
+            <strong id="progressPercentage">0%</strong>
+          </div>
+          <div class="progress-track">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </section>
+
+        <section class="panel tasks-panel">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow pink">MEU PLANEJAMENTO</span>
+              <h2>Lista de tarefas</h2>
+            </div>
+            <button type="button" id="secondaryAddBtn"
+                    class="pink-button">+ Adicionar</button>
+          </div>
+
+          <div class="filters">
+            <label>
+              Pesquisar
+              <input id="searchInput" type="search"
+                     placeholder="Buscar uma tarefa...">
+            </label>
+            <label>
+              Status
+              <select id="statusFilter">
+                <option value="">Todas</option>
+                <option value="pendente">Pendentes</option>
+                <option value="concluida">Concluídas</option>
+                <option value="atrasada">Atrasadas</option>
+              </select>
+            </label>
+            <label>
+              Prioridade
+              <select id="priorityFilter">
+                <option value="">Todas</option>
+                <option value="alta">Alta</option>
+                <option value="media">Média</option>
+                <option value="baixa">Baixa</option>
+              </select>
+            </label>
+            <button type="button" id="clearFilters"
+                    class="soft-button">Limpar filtros</button>
+          </div>
+
+          <div id="tasksList" class="tasks-list">
+            <p class="empty">Carregando tarefas...</p>
+          </div>
+        </section>
+
+        <section class="motivation">
+          <span>✦ UMA LEMBRANÇA PARA VOCÊ</span>
+          <h2>O que eu fizer hoje vai me aproximar ou me afastar dos meus objetivos?</h2>
+          <p>Organize • Execute • Conquiste</p>
+        </section>
+
+        <footer class="footer">
+          <span>CRIADO E DESENVOLVIDO POR</span>
+          <div class="footer-signature">Laís Vargas</div>
+          <p>© 2026 • Gestão Pessoal</p>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="taskModal" hidden>
+    <section class="modal" role="dialog" aria-modal="true"
+             aria-labelledby="modalTitle">
+      <button type="button" id="closeModal" class="modal-close"
+              aria-label="Fechar">×</button>
+
+      <span class="eyebrow pink">MINHA PRODUTIVIDADE</span>
+      <h2 id="modalTitle">Nova tarefa ♡</h2>
+      <p class="modal-description">
+        Preencha os detalhes para organizar sua rotina.
+      </p>
+
+      <form id="taskForm">
+        <input type="hidden" id="taskId">
+
+        <label for="taskTitle">Título da tarefa</label>
+        <input id="taskTitle" type="text" maxlength="150"
+               placeholder="Ex.: Revisar matemática" required>
+
+        <label for="taskDescription">Descrição</label>
+        <textarea id="taskDescription" rows="3" maxlength="5000"
+                  placeholder="O que precisa ser feito?"></textarea>
+
+        <div class="form-grid">
+          <div>
+            <label for="taskPriority">Prioridade</label>
+            <select id="taskPriority">
+              <option value="baixa">Baixa</option>
+              <option value="media" selected>Média</option>
+              <option value="alta">Alta</option>
+            </select>
+          </div>
+          <div>
+            <label for="taskDeadline">Data limite</label>
+            <input id="taskDeadline" type="date">
+          </div>
+        </div>
+
+        <label class="check-label">
+          <input id="taskCompleted" type="checkbox">
+          Marcar como concluída
+        </label>
+
+        <div class="modal-actions">
+          <button type="button" id="cancelModal"
+                  class="soft-button">Cancelar</button>
+          <button type="submit" id="saveTaskBtn"
+                  class="pink-button">Salvar tarefa</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</body>
+</html>

@@ -1,0 +1,510 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --pink: #ec4899;
+  --pink-dark: #be185d;
+  --pink-soft: #fce7f3;
+  --pink-light: #fff1f7;
+  --white: #ffffff;
+  --text: #292337;
+  --muted: #918596;
+  --border: #d8c5d2;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  color: var(--text);
+}
+
+.auth-page {
+  min-height: 100vh;
+  background: #fff7fb;
+}
+
+.auth-layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* PAINEL ROSA */
+
+.welcome-panel {
+  min-height: 100vh;
+  padding: 42px 55px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  background: linear-gradient(
+    145deg,
+    #f9a8d4 0%,
+    #ec4899 45%,
+    #a21c62 100%
+  );
+}
+
+.welcome-panel::before {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 50%;
+  top: -260px;
+  right: -220px;
+}
+
+.welcome-panel::after {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 50%;
+  bottom: -240px;
+  left: -180px;
+}
+
+.welcome-header {
+  position: relative;
+  z-index: 2;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.brand-symbol {
+  font-size: 24px;
+  color: #ffe4f1;
+}
+
+.brand-edition {
+  display: block;
+  margin-top: 8px;
+  margin-left: 37px;
+  font-size: 9px;
+  letter-spacing: 3px;
+  opacity: .8;
+}
+
+.welcome-content {
+  position: relative;
+  z-index: 2;
+  padding: 30px 0;
+}
+
+.decorative-stars {
+  font-size: 30px;
+  letter-spacing: 12px;
+  color: #ffe4f1;
+  margin-bottom: 25px;
+}
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.welcome-title {
+  font-size: clamp(40px, 4.2vw, 65px);
+  font-weight: 900;
+  letter-spacing: -3px;
+  line-height: 1.12;
+  margin: 24px 0;
+}
+
+.welcome-title span {
+  display: block;
+  color: #ffe0f0;
+}
+
+.welcome-description {
+  font-size: 15px;
+  line-height: 1.9;
+  max-width: 450px;
+  color: #fff0f7;
+}
+
+.welcome-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.welcome-features span {
+  padding: 11px 15px;
+  border: 1px solid rgba(255,255,255,.3);
+  background: rgba(255,255,255,.12);
+  border-radius: 30px;
+  font-size: 12px;
+  backdrop-filter: blur(10px);
+}
+
+/* ASSINATURA LAÍS VARGAS */
+
+.signature-area {
+  margin-top: 45px;
+  padding: 25px 15px;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.25);
+  background: rgba(255,255,255,.12);
+  backdrop-filter: blur(14px);
+  text-align: center;
+}
+
+.signature-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: #fff0f7;
+}
+
+.signature-name {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(60px, 6vw, 95px);
+  line-height: 1.4;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 10px 0 0;
+  text-shadow: 0 5px 20px rgba(100,0,50,.2);
+}
+
+.signature-line {
+  width: 150px;
+  height: 2px;
+  margin: 0 auto 12px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #ffffff,
+    transparent
+  );
+}
+
+.signature-footer {
+  font-size: 12px;
+  color: #ffe4f1;
+}
+
+.welcome-footer {
+  position: relative;
+  z-index: 2;
+  font-size: 12px;
+  color: #ffe4f1;
+}
+
+/* PAINEL DE FORMULÁRIO */
+
+.form-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 30px;
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      #fce7f3,
+      transparent 45%
+    ),
+    #fffafd;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 420px;
+}
+
+.form-decoration {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pink-soft);
+  border-radius: 20px;
+  color: var(--pink);
+  font-size: 30px;
+  margin-bottom: 25px;
+}
+
+.form-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: var(--pink);
+}
+
+.form-card h2 {
+  font-size: 34px;
+  letter-spacing: -1.5px;
+  margin-top: 12px;
+}
+
+.form-card h2 span {
+  color: var(--pink);
+}
+
+.subtitle {
+  margin: 12px 0 30px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+form label {
+  display: block;
+  margin: 18px 0 9px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+form input {
+  width: 100%;
+  height: 53px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 0 16px;
+  background: white;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: .2s;
+}
+
+form input::placeholder {
+  color: #b8aab8;
+}
+
+form input:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 0 4px #fce7f3;
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 90px;
+}
+
+.show-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: var(--pink-dark);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primary-btn {
+  width: 100%;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 22px;
+  border: none;
+  border-radius: 13px;
+  background: linear-gradient(
+    120deg,
+    #ec4899,
+    #be185d
+  );
+  color: white;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 12px 25px rgba(236,72,153,.22);
+  transition: .2s;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(236,72,153,.3);
+}
+
+.primary-btn:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+.primary-btn span {
+  font-size: 20px;
+}
+
+.message {
+  margin-top: 15px;
+  font-size: 13px;
+  line-height: 1.6;
+  min-height: 20px;
+}
+
+.message:empty {
+  display: none;
+}
+
+.message.error {
+  color: #b91c1c;
+}
+
+.message.success {
+  color: #15803d;
+}
+
+.message.info {
+  color: var(--pink-dark);
+}
+
+.show-password:focus-visible,
+.primary-btn:focus-visible,
+form input:focus-visible {
+  outline: 3px solid rgba(236, 72, 153, 0.2);
+  outline-offset: 2px;
+}
+
+.form-divider {
+  text-align: center;
+  margin: 25px 0;
+  color: #f9a8d4;
+}
+
+.form-footer {
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.form-footer a {
+  color: var(--pink-dark);
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.form-footer a:hover {
+  text-decoration: underline;
+}
+
+.form-bottom {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: #c9a4bb;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 900px) {
+  .auth-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome-panel {
+    min-height: auto;
+    padding: 35px 25px;
+  }
+
+  .welcome-content {
+    padding: 35px 0 20px;
+  }
+
+  .welcome-title {
+    font-size: clamp(35px, 8vw, 55px);
+    letter-spacing: -2px;
+  }
+
+  .welcome-description {
+    font-size: 14px;
+  }
+
+  .signature-area {
+    margin-top: 30px;
+  }
+
+  .signature-name {
+    font-size: clamp(60px, 12vw, 85px);
+  }
+
+  .welcome-footer {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .form-panel {
+    padding: 50px 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-panel {
+    padding: 25px 20px;
+  }
+
+  .brand {
+    font-size: 15px;
+    letter-spacing: 2px;
+  }
+
+  .brand-edition {
+    font-size: 8px;
+  }
+
+  .welcome-title {
+    font-size: 37px;
+  }
+
+  .welcome-features span {
+    font-size: 11px;
+    padding: 9px 12px;
+  }
+
+  .signature-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+
+  .signature-name {
+    font-size: 65px;
+  }
+
+  .form-panel {
+    padding: 45px 20px;
+  }
+
+  .form-card h2 {
+    font-size: 29px;
+  }
+}
