@@ -9,6 +9,7 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
 const pool = require("./src/config/db");
+const protegerRota = require("./src/middlewares/authMiddleware");
 
 const authRoutes = require("./src/routes/authRoutes");
 const dashboardRoutes = require("./src/routes/dashboardRoutes");
@@ -18,53 +19,87 @@ const estudosRoutes = require("./src/routes/estudosRoutes");
 const tarefasRoutes = require("./src/routes/tarefasRoutes");
 const metasRoutes = require("./src/routes/metasRoutes");
 
-const protegerRota = require("./src/middlewares/authMiddleware");
-
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-if (!process.env.SESSION_SECRET ||
-    process.env.SESSION_SECRET.length < 32) {
+const PORT = Number(process.env.PORT || 3000);
+const emProducao = process.env.NODE_ENV === "production";
+
+if (
+  !process.env.SESSION_SECRET ||
+  process.env.SESSION_SECRET.length < 32
+) {
   throw new Error(
-    "Configure SESSION_SECRET com pelo menos 32 caracteres no .env"
+    "SESSION_SECRET precisa ter pelo menos 32 caracteres."
   );
 }
 
-app.use(helmet({ contentSecurityPolicy: false }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// O Render utiliza proxy HTTPS.
+if (emProducao) {
+  app.set("trust proxy", 1);
+}
 
-app.use(session({
-  store: new PgSession({
-    pool,
-    tableName: "session"
-  }),
-  name: "lais.sid",
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: 1000 * 60 * 60 * 24 * 7
-  }
+app.disable("x-powered-by");
+
+app.use(
+  helmet({
+    contentSecurityPolicy: false
+  })
+);
+
+app.use(express.json({ limit: "1mb" }));
+app.use(express.urlencoded({
+  extended: false,
+  limit: "1mb"
 }));
 
-const authLimiter = rateLimit({
+// SESSÕES DE LOGIN
+app.use(
+  session({
+    name: "lais.sid",
+
+    store: new PgSession({
+      pool,
+      tableName: "session",
+      createTableIfMissing: false
+    }),
+
+    secret: process.env.SESSION_SECRET,
+
+    resave: false,
+    saveUninitialized: false,
+
+    cookie: {
+      httpOnly: true,
+      secure: emProducao,
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    }
+  })
+);
+
+// LIMITADOR DE TENTATIVAS DE LOGIN
+const limiteAutenticacao = rateLimit({
   windowMs: 15 * 60 * 1000,
-  limit: 10,
-  standardHeaders: "draft-8",
+  limit: 30,
+  standardHeaders: "draft-7",
   legacyHeaders: false,
   message: {
-    mensagem: "Muitas tentativas. Tente novamente mais tarde."
+    erro: "Muitas tentativas. Tente novamente mais tarde."
   }
 });
 
-app.use("/api/auth/login", authLimiter);
-app.use("/api/auth/cadastro", authLimiter);
+// ARQUIVOS PÚBLICOS
+app.use(
+  express.static(path.join(__dirname, "public"))
+);
 
-app.use("/api/auth", authRoutes);
+// ROTAS DA API
+app.use(
+  "/api/auth",
+  limiteAutenticacao,
+  authRoutes
+);
+
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/financeiro", financeiroRoutes);
 app.use("/api/calendario", calendarioRoutes);
@@ -72,61 +107,51 @@ app.use("/api/estudos", estudosRoutes);
 app.use("/api/tarefas", tarefasRoutes);
 app.use("/api/metas", metasRoutes);
 
-app.get("/api/status", async (req, res) => {
-  try {
-    await pool.query("SELECT 1");
-    res.json({
-      sucesso: true,
-      mensagem: "Sistema Laís Vargas funcionando!",
-      banco: "PostgreSQL conectado"
-    });
-  } catch (erro) {
-    console.error(erro);
-    res.status(500).json({
-      sucesso: false,
-      mensagem: "Erro ao conectar ao PostgreSQL."
-    });
-  }
-});
-
+// PÁGINA INICIAL
 app.get("/", (req, res) => {
   res.redirect("/pages/login.html");
 });
 
+// DASHBOARD PROTEGIDO
 app.get("/dashboard", protegerRota, (req, res) => {
-  res.set("Cache-Control", "no-store");
   res.sendFile(
     path.join(__dirname, "private", "dashboard.html")
   );
 });
 
-app.use(express.static(
-  path.join(__dirname, "public"),
-  { index: false }
-));
+// VERIFICAÇÃO DO SERVIDOR
+app.get("/status", (req, res) => {
+  res.json({
+    status: "online",
+    sistema: "Gestão Pessoal | Laís Vargas"
+  });
+});
 
+// ROTA NÃO ENCONTRADA
 app.use((req, res) => {
   res.status(404).json({
-    mensagem: "Página ou rota não encontrada."
+    erro: "Página ou rota não encontrada."
   });
 });
 
+// TRATAMENTO DE ERROS
 app.use((erro, req, res, next) => {
-  console.error("Erro interno:", erro);
+  console.error("Erro no servidor:", erro);
+
   res.status(500).json({
-    mensagem: "Erro interno do servidor."
+    erro: "Erro interno do servidor."
   });
 });
 
-app.listen(PORT, () => {
-  console.log("--------------------------------");
-  console.log("GESTÃO PESSOAL | LAÍS VARGAS");
-  console.log("--------------------------------");
-  console.log(`Servidor: http://localhost:${PORT}`);
-  console.log(`Dashboard: http://localhost:${PORT}/dashboard`);
-  console.log(`Financeiro: http://localhost:${PORT}/pages/financas.html`);
-  console.log(`Calendário: http://localhost:${PORT}/pages/calendario.html`);
-  console.log(`Estudos: http://localhost:${PORT}/pages/estudos.html`);
-  console.log(`Tarefas: http://localhost:${PORT}/pages/tarefas.html`);
-  console.log(`Metas: http://localhost:${PORT}/pages/metas.html`);
+// INICIAR SERVIDOR
+app.listen(PORT, "0.0.0.0", () => {
+  console.log("==================================");
+  console.log(" GESTÃO PESSOAL | LAÍS VARGAS");
+  console.log("==================================");
+  console.log(`Servidor iniciado na porta ${PORT}`);
+  console.log(
+    emProducao
+      ? "Ambiente: PRODUÇÃO"
+      : "Ambiente: DESENVOLVIMENTO"
+  );
 });
